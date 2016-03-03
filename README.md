@@ -9,14 +9,15 @@ name of packages:
 * browser-sync
 * gulp-uglify
 * gulp.spritesmith
-
+* gulp.imagemin
+* 
 
 ###tasks
 
 default task:
 > gulp
 
-compile sass, minify css, autoprefix, minify js, add local server and watch with the changes in sass,js,html
+compile sass, minify img, css, autoprefix, minify js, add local server and watch with the changes in sass,js,html,img files
 
 Delete unused css:
 > gulp uncss
