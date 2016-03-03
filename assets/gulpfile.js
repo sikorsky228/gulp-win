@@ -10,7 +10,11 @@ var uncss = require('gulp-uncss');
 var browserSync = require("browser-sync");
 var uglify = require('gulp-uglify');
 var spritesmith = require('gulp.spritesmith');
+var imagemin = require('gulp-imagemin');
+var pngquant = require('imagemin-pngquant');
 var reload = browserSync.reload;
+
+ 
 
 //variables
 var config = {
@@ -20,7 +24,7 @@ var config = {
     tunnel: true,
     host: 'localhost',
     port: 9000,
-    logPrefix: "slava.bedilo"
+    logPrefix: "slava.sikorsky"
 };
 
 //Work with css
@@ -61,11 +65,12 @@ gulp.task('server', function() {
 gulp.task('watch', function(){
   gulp.watch('scss/*.scss', ['css']);
   gulp.watch('js/*.js', ['scripts']);
+  gulp.watch('img/*', ['imgmin']);
   gulp.watch('../*.html').on("change", browserSync.reload);
 });
 
 //'Gulp' in console, and...
-gulp.task('default', ['server', 'watch', 'scripts', 'css']);
+gulp.task('default', ['server', 'watch', 'scripts', 'css', 'imgmin']);
 
 //Other tasks
 //delete unused css
@@ -90,4 +95,15 @@ gulp.task('sprite', function() {
 
     spriteData.img.pipe(gulp.dest('../img/'));
     spriteData.css.pipe(gulp.dest('../css/'));
+});
+
+//Task for imgmin
+gulp.task('imgmin', () => {
+	return gulp.src('img/*')
+		.pipe(imagemin({
+			progressive: true,
+			svgoPlugins: [{removeViewBox: false}],
+			use: [pngquant()]
+		}))
+		.pipe(gulp.dest('../img'));
 });
